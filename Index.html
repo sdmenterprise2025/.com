@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sdmenterprise</title>
+</head>
+
+<style>
+/* Style for the popup */
+  .popup-container {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+  }
+  .popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  .popup-content h2 {
+    margin-top: 0;
+  }
+  .close-btn {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+  .close-btn:hover {
+    background-color: red;
+  }
+  
+  
+  
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+    }
+   
+ .company-name {
+  font-size: 1.5rem; /* Adjust size as needed */
+  text-decoration: none;
+  font-weight: normal;
+}
+
+/* Styling for "SDM" */
+.company-name .sdm {
+  font-weight: bold;
+  color: #0093f9;
+  margin-right: 5px; /* Adjust space as needed */
+}
+
+/* Styling for "Enterprise" */
+.company-name .enterprise {
+  font-weight: bold;
+  color: black;
+}  
+   
+   
+nav{
+   position: sticky; /* Makes the navbar sticky */
+  top: 0; /* Sticks to the top of the viewport */
+  z-index: 1000; /* Ensures it stays above other content */
+  background-color: white;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+}
+nav ul{
+  width: 100%;
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+nav li{
+  height: 50px;
+}
+nav a{
+  height: 100%;
+  padding: 0 30px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: black;
+}
+nav a:hover{
+  background-color: #f0f0f0;
+}
+nav li:first-child{
+  margin-right: auto;
+}
+.sidebar{
+  position: fixed;
+  top: 0; 
+  right: 0;
+  height: 100vh;
+  width: 250px;
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.sidebar li{
+  width: 100%;
+}
+.sidebar a{
+  width: 100%;
+}
+
+ .image {
+      width: 100%;
+      height: auto;
+    }
+
+.menu-button{
+  display: none;
+}
+@media(max-width: 800px){
+  .hideOnMobile{
+    display: none;
+  }
+  .menu-button{
+    display: block;
+  }
+}
+@media(max-width: 400px){
+  .sidebar{
+    width: 100%;
+  }
+}
+
+.section-title {
+      font-size: 2rem;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .services-section,
+    .about-section {
+      padding: 20px;
+    }
+
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .card {
+      background: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      width: 300px;
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .card-body {
+      padding: 15px;
+    }
+    .card-title {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #333;
+    }
+        
+.carousel-container {
+  position: relative;
+  max-width: 80%;
+  margin: 0 auto;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.carousel {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+  flex: 0 0 30%; /* Each item takes 30% of the container */
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.carousel-prev, .carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 18px;
+  border-radius: 50%;
+}
+
+.carousel-prev {
+  left: 0;
+}
+
+.carousel-next {
+  right: 0;
+}
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 600px;
+      margin: auto;
+    }
+    .contact-form input,
+    .contact-form textarea,
+    .contact-form button {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .contact-form button {
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .contact-form button:hover {
+      background-color: #555;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: 20px;
+    }
+</style>
+
+<body>
+  <nav>
+    <ul class="sidebar">
+      <li onclick=hideSidebar()><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg></a></li>
+      
+      <li><a href="javascript:void(0);" onclick="scrollToHome()">Home</a></li>
+      <li><a href="#Services">Services</a></li>
+      <li><a href="#Products">Products</a></li>
+      <li><a href="#About">About</a></li>
+      <li><a href="#Contact">Contact</a></li>
+    </ul>
+    <ul>
+      <li>
+    <a href="#Home" class="company-name">
+      <span class="sdm">SDM</span> <span class="enterprise">Enterprise</span>
+    </a>
+  </li>
+  	  <li class="hideOnMobile"><a href="#Home">Home</a></li>
+      <li class="hideOnMobile"><a href="#Services">Services</a></li>
+      <li class="hideOnMobile"><a href="#Products">Products</a></li>
+      <li class="hideOnMobile"><a href="#About">About</a></li>
+      <li class="hideOnMobile"><a href="#Contact">Contact</a></li>
+      <li class="menu-button" onclick=showSidebar()><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/></svg></a></li>
+    </ul>
+  </nav>
+  
+    <!-- Image Section -->
+  <img class="image" src="https://images.yourstory.com/cs/2/ba6b0930e8cd11edbf1c2f9de7fdeb77/SHERLOCKHOLMES2-1727683092966.png?mode=crop&crop=faces&ar=16%3A9&format=auto&w=1920&q=75" alt="Architecture">
+
+<div class="popup-container" id="bigDealPopup">
+  <div class="popup-content">
+    <h2>Big Deal Offer!</h2>
+    <img src="https://i.ibb.co/Fsp4tnf/Branding.png" alt="Big Deal Image" style="width:100%; border-radius: 10px; margin-bottom: 15px;">
+    <p>New Computer Get 50% off  <b>Only Rs.10,000/-</b> limited time only.</p>
+    <button class="close-btn" onclick="closePopup()">Close</button>
+  </div>
+</div>
+
+
+
+  <!-- Service Section -->
+  <div class="services-section" id="Services">
+    <h2 class="section-title">Our Services</h2>
+    <div class="card-container">
+      <div class="card">
+        <img src="https://i.ibb.co/w42519K/Web-design.jpg" alt="Service 1">
+        <div class="card-body">
+          <h3 class="card-title">Web Development</h3>
+          <p>We provide end-to-end web development services, including custom website design, responsive layouts, and user-friendly interfaces tailored to meet your unique business needs.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://i.ibb.co/DzgtcM0/App-Development.jpg" alt="Service 2">
+        <div class="card-body">
+          <h3 class="card-title">App Development</h3>
+          <p>We create custom mobile applications with user-friendly interfaces, optimized performance, and tailored features for Android and iOS platforms.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://i.ibb.co/wLFfBMY/PC-laptop-Repair.jpg" alt="Service 3">
+        <div class="card-body">
+          <h3 class="card-title">PC & laptop Repair</h3>
+          <p>Expert repair services for PCs and laptops, including hardware upgrades, software troubleshooting, and virus removal.</p>
+        </div>
+      </div> 
+      <div class="card">
+        <img src="https://i.ibb.co/PY0nfkW/Passport-visa.jpg" alt="Service 4">
+        <div class="card-body">
+          <h3 class="card-title">Passport & visa</h3>
+          <p>Hassle-free assistance with passport applications, renewals, and visa processing for various destinations.</p>
+        </div>
+      </div> 
+      <div class="card">
+        <img src="https://i.ibb.co/xMr4czQ/Used-Car-Selling.jpg" alt="Service 5">
+        <div class="card-body">
+          <h3 class="card-title">Used Car Selling</h3>
+          <p>Facilitating the buying and selling of pre-owned cars with reliable evaluations and smooth transactions.</p>
+        </div>
+      </div>
+       <div class="card">
+        <img src="https://i.ibb.co/w0mwRPV/Property-Consultants.jpg" alt="Service 6">
+        <div class="card-body">
+          <h3 class="card-title">Property Consultants</h3>
+          <p>Professional guidance in buying, selling, and renting properties, ensuring the best deals for clients.</p>
+        </div>
+      </div>
+       <div class="card">
+        <img src="https://i.ibb.co/kM41ySJ/Land-Survey.jpg" alt="Service 7">
+        <div class="card-body">
+          <h3 class="card-title">Land Survey</h3>
+          <p>Accurate land surveying services using advanced tools for property boundaries, construction planning, and legal documentation.</p>
+        </div>
+      </div>
+       <div class="card">
+        <img src="https://i.ibb.co/XWbzY9J/Import-Export.jpg" alt="Service 8">
+        <div class="card-body">
+          <h3 class="card-title">Import & Export</h3>
+          <p>Comprehensive solutions for international trade, including customs clearance, shipping logistics, and compliance support.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://i.ibb.co/XyjJvb6/Sollar-Project.png" alt="Service 9">
+        <div class="card-body">
+          <h3 class="card-title">Sollar Panel</h3>
+          <p>Installation and maintenance of energy-efficient solar panel systems for residential and commercial properties.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://i.ibb.co/N2bvpQ0/Scoial-Media-Post.png" alt="Service 10">
+        <div class="card-body">
+          <h3 class="card-title">Designing</h3>
+          <p>Creative designs for social media posts, promotional banners, and professional visiting cards to enhance your brand identity.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Section -->
+<div class="products-section" id="Products">
+  <h2 class="section-title">Our Products</h2>
+  <div class="carousel-container">
+    <button class="carousel-prev" onclick="prevSlide()">&#8249;</button>
+    <div class="carousel">
+      <div class="carousel-item">
+        <img src="https://i.ibb.co/VptFwDv/Monitor.png" alt="Product 1">
+        <div class="card-body">
+          <h3 class="card-title">Led Monitor</h3>
+          <p>Description of Product 1.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://i.ibb.co/85C7cqy/Motherboard.png" alt="Product 2">
+        <div class="card-body">
+          <h3 class="card-title">Motherboard</h3>
+          <p>Description of Product 2.</p>
+        </div>
+      </div>
+      
+      <div class="carousel-item">
+        <img src="https://i.ibb.co/xX8NDJn/dell-wireless-keyboard-mouse-combo.jpg" alt="Product 4">
+        <div class="card-body">
+          <h3 class="card-title">Keyboard & Mouse Combo</h3>
+          <p>Description of Product 4.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://i.ibb.co/S6grdMY/intel-processor.jpg" alt="Product 4">
+        <div class="card-body">
+          <h3 class="card-title">Intel Processor</h3>
+          <p>Description of Product 4.</p>
+        </div>
+      </div>
+     
+    </div>
+    <button class="carousel-next" onclick="nextSlide()">&#8250;</button>
+  </div>
+</div>
+
+
+  <!-- About Section -->
+  <div class="about-section" id="About">
+     <h2 class="section-title">About Us</h2>
+  <p>Welcome to SDM Enterprise, your trusted partner for a wide range of services designed to cater to your personal and business needs. With expertise across multiple domains, we are committed to delivering excellence and customer satisfaction.</p>
+  <p>
+    <strong>Our Services:</strong><br>
+    1. Web Design & Development - We create visually appealing and user-friendly websites tailored to your business needs. From concept to launch, our web solutions are designed to engage your audience and elevate your online presence.<br>
+    2. App Development - Our team specializes in crafting innovative and functional mobile applications for Android and iOS platforms, ensuring seamless performance and user satisfaction.<br>
+    3. PC & Laptop Repair - We offer reliable repair services for PCs and laptops, covering hardware and software issues. Trust us to get your devices back in optimal working condition.<br>
+    4. Passport & Visa Assistance - Navigating the complexities of passport and visa applications can be daunting. We provide expert guidance to make the process smooth and hassle-free.<br>
+    5. Used Car Selling - Looking to sell or buy a used car? We connect buyers and sellers, ensuring transparent and fair deals for everyone involved.<br>
+    6. Property Consultants - Our property consulting services help you find the perfect real estate investment or sell your property at the best price.<br>
+    7. Land Survey - Accurate and detailed land surveys are crucial for any real estate or construction project. We provide professional surveying services tailored to your needs.<br>
+    8. Import & Export Services - Whether you're expanding your business globally or managing international trade, we offer comprehensive import and export solutions to streamline your operations.<br>
+    <em>Other Services Coming Soon...</em>
+  </p>
+  <br>
+
+    <div class="card-container">
+      <div class="card">
+        <img src="https://i.ibb.co/kS7yg1P/result-Sanjay-mokariya.jpg" alt="About Slide 1">
+        <div class="card-body">
+          <h3 class="card-title">Sanjay D. Mokariya</h3>
+          <p>CEO & Founder</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://i.ibb.co/nmSDhwv/result-Scott.png" alt="About Slide 2">
+        <div class="card-body">
+          <h3 class="card-title">Scott Shankland
+</h3>
+          <p>Designer</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://i.ibb.co/khSZjqd/result-Punit-Chauhan-666.png" alt="About Slide 3">
+        <div class="card-body">
+          <h3 class="card-title">Punit Chauhan
+</h3>
+          <p>Team leader
+
+</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://i.ibb.co/jzhc4Qh/result-jitendragiri.png" alt="About Slide 4">
+        <div class="card-body">
+          <h3 class="card-title">Jitendragiri
+</h3>
+          <p>Architect</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+ <div class="contact-section" id="Contact">
+  <h2 class="section-title">Contact Us</h2>
+  <form class="contact-form" name="contact-form">
+    <input type="text" name="customer-name" placeholder="Name" required>
+    <input type="email" name="customer-email" placeholder="Email" required>
+    <input type="text" name="customer-number" placeholder="Phone Number" required>
+    <input type="text" name="customer-subject" placeholder="Subject" required>
+    <textarea name="customer-comment" placeholder="Comment" rows="5" required></textarea>
+    <button type="submit" value="Submit" id="submit">Send Message</button>
+  </form>
+</div>
+
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 SDM Enterprise. All rights reserved.</p>
+  </footer>
+  
+
+  <script>
+  
+  // JavaScript to show the popup
+  window.onload = function() {
+    // Display the popup after 2 seconds
+    setTimeout(function() {
+      document.getElementById("bigDealPopup").style.display = "flex";
+    }, 2000); // 2000ms = 2 seconds
+  };
+
+  // Function to close the popup
+  function closePopup() {
+    document.getElementById("bigDealPopup").style.display = "none";
+  }
+  
+  
+  
+  function scrollToHome() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth', // Adds smooth scrolling effect
+  });
+}
+  
+    function showSidebar(){
+      const sidebar = document.querySelector('.sidebar')
+      sidebar.style.display = 'flex'
+    }
+    function hideSidebar(){
+      const sidebar = document.querySelector('.sidebar')
+      sidebar.style.display = 'none'
+    }
+        
+    let currentIndex = 0;
+
+function updateCarousel() {
+  const carousel = document.querySelector('.carousel');
+  const totalItems = document.querySelectorAll('.carousel-item').length;
+  const itemWidth = document.querySelector('.carousel-item').clientWidth;
+  const gap = 20; // gap between items
+  const offset = -(currentIndex * (itemWidth + gap));
+  
+  carousel.style.transform = `translateX(${offset}px)`;
+
+  // Ensure the slider wraps around
+  if (currentIndex >= totalItems - 3) currentIndex = 0;
+  if (currentIndex < 0) currentIndex = totalItems - 3;
+}
+
+function nextSlide() {
+  currentIndex++;
+  updateCarousel();
+}
+
+function prevSlide() {
+  currentIndex--;
+  updateCarousel();
+}
+
+document.addEventListener("DOMContentLoaded", updateCarousel);
+
+
+
+const scriptURL = 'https://script.google.com/macros/s/AKfycbxYn6fUiJxfTKtPK-I8jGZhvTt1FwOhTYJeIolBjqcIpbFAqRbpo_7pLW9qlBxxVQjb/exec';
+const form = document.forms['contact-form'];
+
+form.addEventListener('submit', e => {
+  e.preventDefault(); // Prevent default form submission behavior
+  
+  fetch(scriptURL, { 
+    method: 'POST', 
+    body: new FormData(form) 
+  })
+  .then(response => {
+    if (response.ok) {
+      alert("Thank you! Form is submitted.");
+      window.location.reload(); // Reload the page after successful submission
+    } else {
+      throw new Error(`Submission failed: ${response.statusText}`);
+    }
+  })
+  .catch(error => console.error('Error!', error.message));
+});
+
+    
+  </script>
+</body>
+</html>
